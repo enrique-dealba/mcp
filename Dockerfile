@@ -6,7 +6,10 @@ RUN apt-get update && apt-get install -y \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-RUN curl -LsSf https://astral.sh/uv/install.sh | sh -s -- --to /usr/local/bin
+RUN curl -LsSf https://astral.sh/uv/install.sh -o /tmp/install-uv.sh \
+    && chmod +x /tmp/install-uv.sh \
+    && /tmp/install-uv.sh --to /usr/local/bin \
+    && rm /tmp/install-uv.sh
 
 WORKDIR /app
 
