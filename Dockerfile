@@ -1,30 +1,31 @@
 FROM vllm/vllm-openai
 
+# Install system dependencies, including curl for the uv installer
 RUN apt-get update && apt-get install -y \
     wget \
+    curl \
     && rm -rf /var/lib/apt/lists/*
+
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh -s -- --to /usr/local/bin
 
 WORKDIR /app
 
-COPY requirements.txt .
+COPY . .
 
-# Install dependencies from requirements.txt and other specified packages
-RUN pip install -r requirements.txt && \
-    pip install pytest pytest-cov && \
-    pip install jupyterlab notebook
-
-# Copy application files
-COPY app/ ./app/
-COPY scripts/ ./scripts/
-COPY tests/ ./tests/
-
-# Make start script executable if you intend to use it later
-# RUN chmod +x /app/scripts/start.sh
+RUN uv pip install --system -r requirements.txt \
+    pytest \
+    pytest-cov \
+    jupyterlab \
+    notebook \
+    fastmcp
 
 EXPOSE 8888
+# For MCP server.py
+EXPOSE 8000
 
-# Clear any entrypoint from the base image
+# Clear any entrypoint inherited from the base image
 ENTRYPOINT []
 
-# Run JupyterLab
-CMD ["jupyter", "lab", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--allow-root", "--NotebookApp.token=''"]
+
+CMD ["sh", "-c", "uv run --with fastmcp server.py --server_type=sse & \
+     jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root --NotebookApp.token=''"]
