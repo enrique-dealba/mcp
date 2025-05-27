@@ -15,3 +15,4 @@ llama-index-core
 llama-index-readers-file
 llama-index-llms-ollama
 llama-index-embeddings-huggingface
+llama-index-llms-vllm==0.5.1
