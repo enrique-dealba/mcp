@@ -17,3 +17,4 @@ llama-index-llms-ollama
 llama-index-embeddings-huggingface
 llama-index-llms-vllm==0.5.1
 llama-index-tools-mcp==0.2.1
+praisonaiagents==0.0.66
