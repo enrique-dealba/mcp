@@ -19,8 +19,28 @@ def multiply(a: int, b: int) -> int:
 
 @mcp.tool()
 def divide(a: int, b: int) -> float:
-    """Divide two numbers"""
-    return float(a / b)
+    """Divide two numbers
+
+    Parameters
+    ----------
+    a: int
+        Numerator of the division.
+    b: int
+        Denominator of the division. Must not be zero.
+
+    Returns
+    -------
+    float
+        Result of ``a / b``.
+
+    Raises
+    ------
+    ValueError
+        If ``b`` is ``0``.
+    """
+    if b == 0:
+        raise ValueError("b must not be zero")
+    return a / b
 
 
 if __name__ == "__main__":
