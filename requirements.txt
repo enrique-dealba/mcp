@@ -24,3 +24,5 @@ langgraph
 langchain-mcp-adapters
 fastmcp
 mcp
+langchain-openai
+langchain-core
